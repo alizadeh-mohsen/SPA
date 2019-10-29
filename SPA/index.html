@@ -6,22 +6,19 @@
     <link href="css/StyleSheet.css" rel="stylesheet" />
     <script src="scripts/jquery-3.4.1.min.js"></script>
     <script src="scripts/app.js"></script>
+
 </head>
 <body>
+    <h1 id="header">Create shopping list</h1>
 
     <div id="createListDiv">
-        <h1>Create shopping list</h1>
         <input type="text" id="listName" placeholder="shopping list name" />
-        <button>Create</button>
+        <button onclick="createList()">Create</button>
     </div>
-    <div id="ShoppingItemsDiv">
+    <div id="ShoppingItemsDiv" style="display: none">
         <input type="text" placeholder="Add item" id="item" />
-        <button>Add</button>
-        <ul>
-            <li>Salad<button>Edit</button><button>Delete</button></li>
-            <li>Milk<button>Edit</button><button>Delete</button></li>
-            <li>Meat<button>Edit</button><button>Delete</button></li>
-            <li>Vegetables<button>Edit</button><button>Delete</button></li>
+        <button onclick="addItem()">Add</button>
+        <ul id="items">
         </ul>
     </div>
 </body>
