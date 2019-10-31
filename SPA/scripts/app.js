@@ -1,8 +1,28 @@
 ﻿var shoppingList = {};
 
 function createList() {
+
     shoppingList.name = $("#listName").val();
     shoppingList.items = new Array();
+
+    var listName = shoppingList.name;
+
+    if (listName.length > 0) {
+        $("#header").html(listName);
+    }
+    else {
+        $("#header").html("NO NAME LIST");
+    }
+
+    $("#createListDiv").hide();
+    $("#ShoppingItemsDiv").show();
+    $("#item").focus();
+}
+function createListFromServer(data) {
+
+    shoppingList.name = data.name;
+    shoppingList.items = new Array();
+    shoppingList.items = data.shopItems;
 
     var listName = shoppingList.name;
 
@@ -39,11 +59,11 @@ function showItems() {
 
     var $ul = $("#items");
     $ul.empty();
-
+    console.log("number od items: " + shoppingList.items);
     for (var i = 0; i < shoppingList.items.length; i++) {
 
         var item = shoppingList.items[i];
-        var $li = $("<li>").html(item.name).attr("id", "itme_" + i).attr("class", "checked");
+        var $li = $("<li>").html(item.name).attr("id", "itme_" + i);
         var $deleteButton = $("<button onclick='deleteItem(" + i + ")'>Delete</button>").appendTo($li);
         var $checkButton = $("<button onclick='checkItem(" + i + ")'>Check</button>").appendTo($li);
 
@@ -72,9 +92,25 @@ function checkItem(index) {
     } else {
         $li.addClass("checked");
     }
+}
 
+function getDataById(id) {
+
+    console.info("function called");
+    $.ajax({
+        url: "api/ShoppingList/"+id,
+        method: "GET",
+        datatype: "json",
+        success: function (data) {
+            
+            console.info(data);
+            createListFromServer(data);
+            showItems();
+        }
+    });
 
 }
+
 $(document).ready(function () {
 
     var txtListName = $("#listName");
@@ -88,11 +124,10 @@ $(document).ready(function () {
     });
 
 
-        txtItem.keyup(function(event) {
-            if (event.keyCode === 13) {
-                addItem();
-            }
-        });
-
-    }
+    txtItem.keyup(function (event) {
+        if (event.keyCode === 13) {
+            addItem();
+        }
+    });
+}
 );
